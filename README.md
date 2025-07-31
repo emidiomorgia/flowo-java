@@ -1,4 +1,4 @@
-# Flowo
+# Flowo-java
 
 [![Pipeline Status](https://img.shields.io/github/actions/workflow/status/your-username/flowo/ci.yml?branch=main)](https://github.com/your-username/flowo/actions)
 [![Code Coverage](https://img.shields.io/codecov/c/github/your-username/flowo/main)](https://codecov.io/gh/your-username/flowo)
