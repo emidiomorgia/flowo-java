@@ -1,0 +1,17 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(users_svc, "Users Service", ".NET 7 + ASP.NET Core Identity") {
+    Component(api, "Users API Controller", "ASP.NET Core Controller", "Exposes REST endpoints for users and auth")
+    Component(application, "Application Layer", "MediatR Handlers", "Handles commands and queries")
+    Component(domain, "Domain Model", "User aggregate and identity entities", "Manages users and authentication")
+    Component(repository, "Repository", "EF Core Repository", "Data persistence")
+    Component(events, "Event Publisher", "RabbitMQ Publisher", "Publishes domain events")
+}
+
+Rel(api, application, "Sends commands/queries")
+Rel(application, domain, "Loads and modifies aggregates")
+Rel(application, repository, "Reads/Writes data")
+Rel(application, events, "Publishes domain events")
+
+@enduml

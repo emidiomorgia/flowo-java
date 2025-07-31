@@ -1,0 +1,11 @@
+
+@startuml c4_context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person(user, "Utente", "Utente finale del sistema")
+System_Boundary(system, "Sistema Time Management") {
+  System(timeManagementSystem, "Time Management System", "Sistema per gestione tempo, clienti, progetti")
+}
+
+Rel(user, timeManagementSystem, "Usa")
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "End User", "Uses the system through the web app or API")
+
+System_Boundary(flowo, "Flowo System") {
+    Container(bff, "BFF (Backend For Frontend)", "ASP.NET Core", "Orchestrates calls between frontend and microservices")
+
+    Container(timeentry_svc, "TimeEntry Service", ".NET 7", "Manages time entry aggregate and slices")
+    Container(customers_svc, "Customers Service", ".NET 7", "Manages customer data")
+    Container(projects_svc, "Projects Service", ".NET 7", "Manages projects")
+    Container(resources_svc, "Resources Service", ".NET 7", "Manages resources")
+    Container(users_svc, "Users Service", ".NET 7 + ASP.NET Core Identity", "Manages authentication and roles")
+
+    Container(timeentry_db, "TimeEntry PostgreSQL DB", "Relational database", "Persistent storage for TimeEntry service")
+    Container(customers_db, "Customers PostgreSQL DB", "Relational database", "Persistent storage for Customers service")
+    Container(projects_db, "Projects PostgreSQL DB", "Relational database", "Persistent storage for Projects service")
+    Container(resources_db, "Resources PostgreSQL DB", "Relational database", "Persistent storage for Resources service")
+    Container(users_db, "Users PostgreSQL DB", "Relational database", "Persistent storage for Users service")
+
+    Container(rabbitmq, "RabbitMQ", "Message Broker", "Event-driven communication")
+}
+
+Rel(user, bff, "Uses frontend or API")
+Rel(bff, timeentry_svc, "Calls API")
+Rel(bff, customers_svc, "Calls API")
+Rel(bff, projects_svc, "Calls API")
+Rel(bff, resources_svc, "Calls API")
+Rel(bff, users_svc, "Calls API")
+
+Rel(timeentry_svc, timeentry_db, "Reads/Writes time entry data")
+Rel(customers_svc, customers_db, "Reads/Writes customer data")
+Rel(projects_svc, projects_db, "Reads/Writes project data")
+Rel(resources_svc, resources_db, "Reads/Writes resource data")
+Rel(users_svc, users_db, "Reads/Writes user data")
+
+Rel(timeentry_svc, rabbitmq, "Publishes domain events")
+Rel(customers_svc, rabbitmq, "Publishes domain events")
+Rel(projects_svc, rabbitmq, "Publishes domain events")
+Rel(resources_svc, rabbitmq, "Publishes domain events")
+Rel(users_svc, rabbitmq, "Publishes domain events")
+
+@enduml
